@@ -11,6 +11,9 @@ function add_answer(e) {
     const input = question.querySelector('#answer');
     fetch(`/answer/${id}/`, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
                 answer: input.value,
             })
