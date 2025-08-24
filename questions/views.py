@@ -34,4 +34,4 @@ def answer(request, id):
         question = Question.objects.get(id=id)
         answer = Answer(question=question, description=description)
         answer.save()
-        return HttpResponse("Successfully added answer to question!");
+        return HttpResponse("Successfully added answer to question!")
