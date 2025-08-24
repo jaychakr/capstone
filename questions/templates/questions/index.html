@@ -1,0 +1,73 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Question & Answer{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static 'questions/styles.css' %}" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div class="ask">
+            <h1>Ask a Question:</h1>
+            <form action="{% url 'question' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input class="form-control" autofocus type="text" name="question" placeholder="Enter your question">
+                </div>
+                <input class="btn btn-primary" type="submit" value="Ask Question">
+            </form>
+        </div>
+        <h2>Questions:</h2>
+        {% for question in questions %}
+            <div class="question" data-question-id="{{ question.id }}">
+                <p><b>Question:</b> {{ question.description }}</p>
+                <p><b>Answers:</b></p>
+                <div class="answers">
+                    {% for answer in question.answers.all %}
+                        <div class="answer">
+                            {{ answer.description }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <form action="{% url 'answer' question.id %}" method="post">
+                {% csrf_token %}
+                    <div class="form-group">
+                        <input class="form-control" autofocus type="text" name="answer" placeholder="Enter your answer" id="answer">
+                    </div>
+                    <input class="btn btn-primary" type="submit" value="Answer" id="submit-answer">
+                </form>
+            </div>
+        {% endfor %}
+        <div class="pagination">
+            <span class="step-links">
+                <ul class="pagination">
+                    {% if questions.has_previous %}
+                        <li class="page-item"><a href="?page=1" class="page-link">&laquo; first</a></li>
+                        <li class="page-item"><a href="?page={{ questions.previous_page_number }}" class="page-link">previous</a></li>
+                    {% else %}
+                        <li class="page-item disabled"><a href="#" class="page-link">&laquo; first</a></li>
+                        <li class="page-item disabled"><a href="#" class="page-link">previous</a></li>
+                    {% endif %}
+
+                    <span class="current">
+                        <li class="page-item disabled"><a href="#" class="page-link">Page {{ questions.number }} of {{ questions.paginator.num_pages }}</a></li>
+                    </span>
+
+                    {% if questions.has_next %}
+                        <li class="page-item"><a href="?page={{ questions.next_page_number }}" class="page-link">next</a></li>
+                        <li class="page-item"><a href="?page={{ questions.paginator.num_pages }}" class="page-link">last &raquo;</a></li>
+                    {% else %}
+                        <li class="page-item disabled"><a href="#" class="page-link">next</a></li>
+                        <li class="page-item disabled"><a href="#" class="page-link">last &raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </span>
+        </div>
+    </body>
+</html>
+
+{% block script %}
+    <script src="{% static 'questions/main.js' %}"></script>
+{% endblock %}

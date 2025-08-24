@@ -1,0 +1,22 @@
+body {
+    margin: 10px;
+}
+
+.ask, .question, .answer {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.ask, .question {
+    background-color: gainsboro;
+}
+
+.question {
+    margin: 10px;
+}
+
+.answer {
+    margin: 10px 0;
+    background-color: white;
+}
