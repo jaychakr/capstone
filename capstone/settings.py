@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
-    "capstone-dolp.onrender.com"
+    "capstone-lbfv.onrender.com"
 ]
 
 
